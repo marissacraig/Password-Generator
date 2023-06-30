@@ -6,78 +6,84 @@ var options = {
   special: ["\"", "\ ", "\!", "\#", "\$", "\%", "\^", "\&", "\*", "\)", "\(", "\'", "\+", "\=", "\,", "\-", "\_", "\.", "\/", "\?", "\:", "\;", "\<", "\>", "\@", "\[", "\]", "\{", "\}", "\|", "\~", "\`"],
 };
 
-// Assignment Code
-var generateBtn = document.querySelector("#generate");
-
-// Add event listener to generate button
-generateBtn.addEventListener("click", displayPassword());
-
 // Be able to choose a length between 8 and 128 characters
 // Ask for character types to be included
 function getUserAnswers() {
 
-  var availableCharacters = [];
-
   var length = window.prompt("Enter password length between 8 and 128 characters.");
-  if (length !== true) {
+  if (length < 8) {
     return;
   }
 
   var isLowercase = window.confirm("Would you like to include lowercase letters?");
-  if (isLowercase !== true) {
-    availableCharacters.splice(options.lowercase);
-    console.log(availableCharacters.splice(options.lowercase));
-  } else {
+  console.log("isLowercase: " + isLowercase);
+
+  var isUppercase = window.confirm("Would you like to include uppercase letters?");
+  console.log("isUppercase: " + isUppercase);
+
+  var isNumbers = window.confirm("Would you like to include numbers?");
+  console.log("isNumbers: " + isNumbers);
+
+  var isSpecial = window.confirm("Would you like to include special characters?")
+  console.log("isSpecial: " + isSpecial);
+
+  var userAnswers = {
+    isLowercase: isLowercase,
+    isUppercase: isUppercase,
+    isNumbers: isNumbers,
+    isSpecial: isSpecial,
+    length: length
+  };
+  return userAnswers;
+};
+
+function makePassword() {
+  var userAnswers = getUserAnswers();
+  var password = [];
+  var availableCharacters = [];
+  console.log(userAnswers);
+
+  if (userAnswers.isLowercase) {
     availableCharacters.concat(options.lowercase);
     console.log(availableCharacters.concat(options.lowercase));
   }
 
-  var isUppercase = window.confirm("Would you like to include uppercase letters?");
-  if (isUppercase !== true) {
-    availableCharacters.splice(options.uppercase);
-    console.log(availableCharacters.splice(options.uppercase));
-  } else {
+  if (userAnswers.isUppercase) {
     availableCharacters.concat(options.uppercase);
     console.log(availableCharacters.concat(options.uppercase));
   }
 
-  var isNumbers = window.confirm("Would you like to include numbers?");
-  if (isNumbers !== true) {
-    availableCharacters.splice(options.numbers);
-    console.log(availableCharacters.splice(options.numbers));
-  } else {
+  if (userAnswers.isNumbers) {
     availableCharacters.concat(options.numbers);
     console.log(availableCharacters.concat(options.numbers));
   }
 
-  var isSpecial = window.confirm("Would you like to include special characters?")
-  if (isSpecial !== true) {
-    availableCharacters.splice(options.special);
-    console.log(availableCharacters.splice(options.special));
-  } else {
+  if (userAnswers.isSpecial) {
     availableCharacters.concat(options.special);
     console.log(availableCharacters.concat(options.special));
   }
+  return password;
+}
 
-};
+// //var writePassword = function () {
+//   // Generate Password
+// var passwords = makePassword();
+// var newPassword = Math.floor(Math.random() * availableCharacters().length);
+//   console.log(newPassword);
+// };
 
-function writePassword() {
-
-  // Generate Password
-  for (let i = 0; i = length; i++) {
-    Math.floor(Math.random() * (getUserAnswers() * length))
-  }
-};
 
 // Write password to the #password input
 function displayPassword() {
-  var password = writePassword();
-  var passwordText = document.querySelector("#password");
+  var password = makePassword();
+  var passwordText = document.getElementById("password");
   passwordText.value = password;
 };
 
+// Assignment Code
+var generateBtn = document.querySelector('#generate');
 
-
-
+// Add event listener to generate button
+generateBtn.addEventListener('click', displayPassword);
 
 
