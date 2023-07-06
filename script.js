@@ -44,7 +44,7 @@ function getUserAnswers() {
   return userAnswers;
 }
 
-function makePassword() {
+function makePassword(userAnswers) {
   var userAnswers = getUserAnswers();
   console.log(userAnswers);
 
@@ -81,9 +81,9 @@ function generateRandom(userAnswers) {
   console.log(isUserAnswers);
   
   var length = userAnswers.length;
-  var password = [];
+  var password = '';
   for ( var i = 0; i < length; i++ ) {
-    password = password + Math.floor(Math.random() * isUserAnswers);
+    password = password + isUserAnswers[Math.floor(Math.random() * isUserAnswers.length)];
   };
 
   return password;
@@ -91,19 +91,17 @@ function generateRandom(userAnswers) {
 };
 
 // Write password to the #password input
-function displayPassword() {
-
+function displayPassword(password) {
   var password = generateRandom();
   console.log(password);
   var passwordText = document.querySelector("#password");
-
   return passwordText.textContent = "Your new password is " + password;
 };
 
-displayPassword();
+displayPassword(password);
 
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 
 // Add event listener to generate button
-generateBtn.addEventListener('click', makePassword);
+generateBtn.addEventListener('click', displayPassword);
